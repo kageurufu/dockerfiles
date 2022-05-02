@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -xeuo pipefail
+
+SUPERSLICER_ZIP="$(readlink -f "$1")"
+BASENAME="${SUPERSLICER%.*}"
+
+unzip "/tmp/$SUPERSLICER_ZIP" -d /superslicer
+if [ -f "/superslicer/$BASENAME" ]; then
+    tar -xf "/superslicer/$BASENAME" -C /superslicer
+    rm "/superslicer/$BASENAME"
+fi
+
+if ! [ -f /superslicer/superslicer ]; then
+ exit 1
+fi
+
+rm "/tmp/$SUPERSLICER_ZIP"
